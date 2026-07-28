@@ -168,7 +168,7 @@ function CharacterCrop({
   return (
     <span className={`character-crop ${className}`} aria-hidden="true">
       <img
-        src="/assets/character-lineup.png"
+        src="./assets/character-lineup.png"
         alt=""
         style={{ transform: `translateX(-${index * 33.3333}%)` }}
       />
@@ -188,7 +188,7 @@ function OutfitCrop({
   return (
     <span className={`outfit-crop ${className}`} aria-hidden="true">
       <img
-        src="/assets/outfit-collection.png"
+        src="./assets/outfit-collection.png"
         alt=""
         style={{
           transform: `translate(-${col * 20}%, -${row * 50}%)`,
