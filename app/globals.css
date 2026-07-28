@@ -460,33 +460,238 @@ button {
   max-width: none;
 }
 
-.main-look {
+.doll-base-character {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  mix-blend-mode: multiply;
 }
 
-.face-sticker {
+.doll-base-character {
+  z-index: 1;
+  border-radius: 42% 42% 26% 26% / 24% 24% 12% 12%;
+  background: rgba(248, 239, 227, 0.72);
+  filter: drop-shadow(0 18px 22px rgba(72, 46, 52, 0.12));
+}
+
+.garment-look {
+  --garment-top: #f2e6d7;
+  --garment-bottom: #df9aa7;
+  --garment-accent: #fff8ee;
+  --garment-outline: rgba(79, 53, 60, 0.5);
   position: absolute;
-  left: 50%;
-  top: 18px;
-  width: 116px;
-  height: 116px;
-  border: 5px solid rgba(255, 250, 242, 0.94);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  background: #f7ede1;
-  box-shadow:
-    0 12px 30px rgba(72, 46, 52, 0.16),
-    0 0 0 1px rgba(35, 33, 36, 0.08);
-  overflow: hidden;
+  inset: 0;
+  z-index: 2;
+  filter: drop-shadow(0 8px 10px rgba(49, 36, 39, 0.14));
+  pointer-events: none;
 }
 
-.face-sticker img {
-  width: 300%;
-  height: 210%;
-  top: -5%;
+.garment-look span {
+  position: absolute;
+  display: block;
+  border: 1.2px solid var(--garment-outline);
+}
+
+.garment-top {
+  left: 35%;
+  top: 40.5%;
+  width: 30%;
+  height: 22%;
+  border-radius: 35% 35% 14% 14% / 18% 18% 10% 10%;
+  background:
+    linear-gradient(90deg, transparent 47%, var(--garment-accent) 48% 52%, transparent 53%),
+    var(--garment-top);
+}
+
+.garment-sleeve {
+  top: 42.5%;
+  width: 9%;
+  height: 20%;
+  border-radius: 55% 45% 42% 48%;
+  background: var(--garment-top);
+}
+
+.garment-sleeve-left {
+  left: 29%;
+  rotate: 7deg;
+}
+
+.garment-sleeve-right {
+  right: 29%;
+  rotate: -7deg;
+}
+
+.garment-bottom {
+  left: 31%;
+  top: 59%;
+  width: 38%;
+  height: 20%;
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  background: var(--garment-bottom);
+}
+
+.garment-leg {
+  display: none !important;
+  top: 60%;
+  width: 13%;
+  height: 29%;
+  border-radius: 10% 10% 20% 20%;
+  background: var(--garment-bottom);
+}
+
+.garment-leg-left {
+  left: 36.5%;
+}
+
+.garment-leg-right {
+  right: 36.5%;
+}
+
+.garment-shoe {
+  top: 88.5%;
+  width: 14%;
+  height: 6%;
+  border-radius: 55% 55% 35% 35%;
+  background: var(--garment-accent);
+}
+
+.garment-shoe-left {
+  left: 34.5%;
+}
+
+.garment-shoe-right {
+  right: 34.5%;
+}
+
+.garment-accessory {
+  left: 46%;
+  top: 38.5%;
+  width: 8%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--garment-accent);
+}
+
+.garment-look-1 {
+  --garment-top: repeating-linear-gradient(90deg, #f5eadb 0 7px, #fff8ee 7px 10px);
+  --garment-bottom: linear-gradient(#f4b1bd, #e58e9f);
+  --garment-accent: #d76f87;
+}
+
+.garment-look-1 .garment-bottom {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 9px, rgba(255,255,255,.55) 9px 11px),
+    var(--garment-bottom);
+}
+
+.garment-look-2 {
+  --garment-top: #26304b;
+  --garment-bottom: repeating-linear-gradient(45deg, #62463e 0 7px, #c28d62 7px 9px);
+  --garment-accent: #d39462;
+  --garment-outline: rgba(30, 31, 45, 0.72);
+}
+
+.garment-look-3 {
+  --garment-top: linear-gradient(90deg, #e9dfcb 0 25%, #385b83 25% 75%, #e9dfcb 75%);
+  --garment-bottom: #6f8eaa;
+  --garment-accent: #263d59;
+}
+
+.garment-look-4 {
+  --garment-top: #292a2f;
+  --garment-bottom: #303239;
+  --garment-accent: #111216;
+  --garment-outline: rgba(10, 10, 12, 0.78);
+}
+
+.garment-look-5 {
+  --garment-top: #f2e7d2;
+  --garment-bottom: linear-gradient(90deg, #406f95, #7596b1);
+  --garment-accent: #8b592d;
+}
+
+.garment-look-6 {
+  --garment-top: repeating-linear-gradient(90deg, #eee2c9 0 6px, #faf4e7 6px 9px);
+  --garment-bottom:
+    radial-gradient(circle at 30% 35%, #e9c4a8 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 58%, #f4dfbd 0 2px, transparent 3px),
+    linear-gradient(#718069, #586952);
+  --garment-accent: #d8b58f;
+}
+
+.garment-look-6 .garment-bottom {
+  left: 27%;
+  top: 57%;
+  width: 46%;
+  height: 29%;
+}
+
+.garment-look-7 {
+  --garment-top: linear-gradient(90deg, #8a7767, #b6a391, #8a7767);
+  --garment-bottom: #252429;
+  --garment-accent: #5f4b3d;
+}
+
+.garment-look-7 .garment-top {
+  left: 31%;
+  width: 38%;
+  height: 42%;
+  border-radius: 30% 30% 8% 8%;
+}
+
+.garment-look-7 .garment-sleeve {
+  height: 31%;
+}
+
+.garment-look-8 {
+  --garment-top: linear-gradient(135deg, #d4d7e4, #9299af 52%, #eef0f7);
+  --garment-bottom: linear-gradient(135deg, #7966c2, #b18ada);
+  --garment-accent: #6851a3;
+}
+
+.garment-look-9 {
+  --garment-top: linear-gradient(90deg, #e3548c, #4da9ad 52%, #7651bb);
+  --garment-bottom: #744ab0;
+  --garment-accent: #f3d66e;
+}
+
+.garment-look-9 .garment-bottom {
+  top: 59%;
+  height: 11%;
+  clip-path: polygon(5% 0, 95% 0, 88% 100%, 52% 72%, 48% 72%, 12% 100%);
+}
+
+.garment-look-10 {
+  --garment-top: linear-gradient(135deg, #3f285e, #8b5db7);
+  --garment-bottom:
+    radial-gradient(circle, #f3cf78 0 2px, transparent 3px),
+    linear-gradient(135deg, #5a347b, #b07ac5);
+  --garment-accent: #e9bd65;
+}
+
+.garment-look-10 .garment-bottom {
+  left: 28%;
+  width: 45%;
+  height: 27%;
+  clip-path: polygon(10% 0, 88% 0, 100% 68%, 70% 100%, 0 78%);
+}
+
+.garment-look-3 .garment-bottom,
+.garment-look-4 .garment-bottom,
+.garment-look-5 .garment-bottom,
+.garment-look-7 .garment-bottom {
+  display: none;
+}
+
+.garment-look-3 .garment-leg,
+.garment-look-4 .garment-leg,
+.garment-look-5 .garment-leg,
+.garment-look-7 .garment-leg {
+  display: block !important;
+}
+
+.garment-look-5 .garment-leg {
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
 }
 
 .dress-stage.is-changing .doll-wrap {
@@ -1129,12 +1334,6 @@ footer p {
   .doll-wrap {
     width: 224px;
     height: 373px;
-  }
-
-  .face-sticker {
-    top: 15px;
-    width: 96px;
-    height: 96px;
   }
 
   .look-caption {

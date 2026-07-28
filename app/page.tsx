@@ -200,7 +200,7 @@ function OutfitCrop({
 
 export default function Home() {
   const [activeCharacter, setActiveCharacter] = useState(1);
-  const [activeOutfit, setActiveOutfit] = useState(2);
+  const [activeOutfit, setActiveOutfit] = useState<number | null>(null);
   const [changing, setChanging] = useState(false);
   const [cameraState, setCameraState] = useState<CameraState>("idle");
   const [cameraMessage, setCameraMessage] = useState("等待开启摄像头");
@@ -224,7 +224,7 @@ export default function Home() {
   const gestureLabelRef = useRef("");
 
   const character = characters[activeCharacter];
-  const outfit = outfits[activeOutfit];
+  const outfit = activeOutfit === null ? null : outfits[activeOutfit];
 
   const triggerOutfit = useCallback(
     (index: number, source: SelectionSource) => {
@@ -455,7 +455,7 @@ export default function Home() {
   }, [stopCamera]);
 
   const stageStyle = {
-    "--active-color": outfit.color,
+    "--active-color": outfit?.color ?? character.accent,
     "--character-color": character.accent,
   } as CSSProperties;
 
@@ -557,8 +557,16 @@ export default function Home() {
           aria-live="polite"
         >
           <div className="stage-meta">
-            <span>LOOK {String(activeOutfit + 1).padStart(2, "0")}</span>
-            <span>{lastSource === "gesture" ? "GESTURE" : "MOUSE"} SELECTED</span>
+            <span>
+              {outfit
+                ? `LOOK ${String(activeOutfit + 1).padStart(2, "0")}`
+                : "CHARACTER READY"}
+            </span>
+            <span>
+              {outfit
+                ? `${lastSource === "gesture" ? "GESTURE" : "MOUSE"} SELECTED`
+                : "WAITING TO DRESS"}
+            </span>
           </div>
           <div className="halo halo-one" />
           <div className="halo halo-two" />
@@ -570,22 +578,39 @@ export default function Home() {
           </div>
 
           <div className="doll-wrap">
-            <OutfitCrop
-              col={outfit.col}
-              row={outfit.row}
-              className="main-look"
+            <CharacterCrop
+              index={character.index}
+              className="doll-base-character"
             />
-            <CharacterCrop index={character.index} className="face-sticker" />
+            {outfit && (
+              <div
+                className={`garment-look garment-look-${activeOutfit + 1}`}
+                aria-hidden="true"
+              >
+                <span className="garment-top" />
+                <span className="garment-sleeve garment-sleeve-left" />
+                <span className="garment-sleeve garment-sleeve-right" />
+                <span className="garment-bottom" />
+                <span className="garment-leg garment-leg-left" />
+                <span className="garment-leg garment-leg-right" />
+                <span className="garment-shoe garment-shoe-left" />
+                <span className="garment-shoe garment-shoe-right" />
+                <span className="garment-accessory" />
+              </div>
+            )}
           </div>
 
           <div className="look-caption">
             <span className="look-number">
-              {String(activeOutfit + 1).padStart(2, "0")}
+              {outfit ? String(activeOutfit + 1).padStart(2, "0") : "00"}
             </span>
             <div>
-              <small>{outfit.tag} STYLE</small>
-              <h2>{outfit.name}</h2>
-              <p>{outfit.description}</p>
+              <small>{outfit ? `${outfit.tag} STYLE` : "READY TO DRESS"}</small>
+              <h2>{outfit?.name ?? character.name}</h2>
+              <p>
+                {outfit?.description ??
+                  "左侧选中的角色已经进入换衣区，点击衣橱或用捏合手势为它穿上第一套衣服。"}
+              </p>
             </div>
           </div>
         </section>
