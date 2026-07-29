@@ -319,26 +319,32 @@ function OutfitCrop({
   );
 }
 
-function PolishedLook({
+function GarmentOnly({
   outfit,
-  characterIndex,
   className = "",
 }: {
   outfit: Outfit;
-  characterIndex: number;
   className?: string;
 }) {
   return (
-    <span className={`polished-look ${className}`} aria-hidden="true">
+    <span className={`garment-only ${className}`} aria-hidden="true">
       <OutfitCrop
         col={outfit.col}
         row={outfit.row}
         filter={outfit.filter}
-        className="polished-look-outfit"
+        className="garment-piece garment-piece-top"
       />
-      <CharacterCrop
-        index={characterIndex}
-        className="polished-look-identity"
+      <OutfitCrop
+        col={outfit.col}
+        row={outfit.row}
+        filter={outfit.filter}
+        className="garment-piece garment-piece-bottom"
+      />
+      <OutfitCrop
+        col={outfit.col}
+        row={outfit.row}
+        filter={outfit.filter}
+        className="garment-piece garment-piece-shoes"
       />
     </span>
   );
@@ -726,16 +732,14 @@ export default function Home() {
           </div>
 
           <div className="doll-wrap">
-            {outfit ? (
-              <PolishedLook
+            <CharacterCrop
+              index={character.index}
+              className="doll-base-character"
+            />
+            {outfit && (
+              <GarmentOnly
                 outfit={outfit}
-                characterIndex={character.index}
-                className="doll-polished-look"
-              />
-            ) : (
-              <CharacterCrop
-                index={character.index}
-                className="doll-base-character"
+                className="doll-garment-layer"
               />
             )}
           </div>
@@ -812,14 +816,15 @@ export default function Home() {
               <p>全部衣橱</p>
               <small>
                 {character.gender === "male"
-                  ? "10 BOYS' CURATED LOOKS"
-                  : "10 GIRLS' CURATED LOOKS"}
+                  ? "10 BOYS' GARMENTS"
+                  : "10 GIRLS' GARMENTS"}
               </small>
             </div>
           </div>
           <p>
-            当前为{character.gender === "male" ? "男生" : "女生"}衣橱 ·
-            点击服装，或用手势光标悬停后捏合
+            纯服装预览 · 当前为
+            {character.gender === "male" ? "男生" : "女生"}衣橱 ·
+            点击或捏合换装
           </p>
         </div>
         <div className="outfit-rail">
@@ -835,9 +840,8 @@ export default function Home() {
               key={item.name}
               style={{ "--card-color": item.color } as CSSProperties}
             >
-              <PolishedLook
+              <GarmentOnly
                 outfit={item}
-                characterIndex={character.index}
                 className="outfit-card-look"
               />
               <span className="outfit-card-copy">
