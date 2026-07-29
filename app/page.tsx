@@ -350,6 +350,242 @@ function GarmentOnly({
   );
 }
 
+const femaleGarmentKinds = [
+  "knit-skirt",
+  "academy",
+  "varsity",
+  "hoodie",
+  "western",
+  "dress",
+  "trench",
+  "y2k",
+  "sport",
+  "stage",
+] as const;
+
+const maleGarmentKinds = [
+  "academy",
+  "varsity",
+  "hoodie",
+  "trench",
+  "varsity",
+  "trench",
+  "varsity",
+  "hoodie",
+  "academy",
+  "trench",
+] as const;
+
+function WardrobeGarment({
+  outfit,
+  index,
+  gender,
+}: {
+  outfit: Outfit;
+  index: number;
+  gender: Gender;
+}) {
+  const kind =
+    gender === "male" ? maleGarmentKinds[index] : femaleGarmentKinds[index];
+  const gradientId = `garment-gradient-${gender}-${index}`;
+  const patternId = `garment-pattern-${gender}-${index}`;
+  const shadowId = `garment-shadow-${gender}-${index}`;
+  const silverId = `garment-silver-${gender}-${index}`;
+  const isMale = gender === "male";
+
+  const garment = (() => {
+    switch (kind) {
+      case "academy":
+        return (
+          <>
+            <path
+              d="M54 42 72 35h16l18 7 13 39-18 7-5-24v45H64V64l-5 24-18-7Z"
+              fill={`url(#${gradientId})`}
+            />
+            <path d="m72 36 8 16 8-16 9 8-8 18H71l-8-18Z" fill="#fffaf1" />
+            <path d="m80 51-5 13 5 16 5-16Z" fill="#a75c43" />
+            <path d="M64 62h32M67 86h26" fill="none" />
+            {isMale ? (
+              <>
+                <path
+                  d="M64 108h32l9 64-18 3-7-48-7 48-18-3Z"
+                  fill={`url(#${patternId})`}
+                />
+                <path d="M54 178h20l-2 12H49q-3-8 5-12ZM86 178h20q8 4 5 12H88Z" fill="#332d31" />
+              </>
+            ) : (
+              <>
+                <path d="M61 108h38l10 42H51Z" fill={`url(#${patternId})`} />
+                <path d="M58 158h18l-2 14H54ZM84 158h18l4 14H86Z" fill="#fff8eb" />
+                <path d="M53 174h23l-3 14H49ZM85 174h23l3 14H88Z" fill="#3c3436" />
+              </>
+            )}
+          </>
+        );
+      case "varsity":
+        return (
+          <>
+            <path
+              d="M53 43 69 36h22l16 7 16 35-17 8-8-21v41H62V65l-8 21-17-8Z"
+              fill={`url(#${gradientId})`}
+            />
+            <path d="M69 36h22l-5 14H74ZM62 88h36v10H62Z" fill="#f8eee0" />
+            <path d="M76 50h9v35h-9Z" fill="#fffaf4" opacity=".78" />
+            <path d="M58 107h44l8 67-20 2-10-47-10 47-20-2Z" fill="#7190aa" />
+            <path d="m62 121 13 4-5 38-12-1ZM98 121l-13 4 5 38 12-1Z" fill="#87a4ba" opacity=".65" />
+            <path d="M50 178h25l-3 12H45q-2-8 5-12ZM85 178h25q7 4 5 12H88Z" fill="#f5eee2" />
+          </>
+        );
+      case "hoodie":
+        return (
+          <>
+            <path
+              d="M57 44 68 35h24l11 9 18 37-17 8-8-22v42H64V67l-8 22-17-8Z"
+              fill={`url(#${gradientId})`}
+            />
+            <path d="M68 35q12 18 24 0l7 18H61Z" fill="#24252b" />
+            <path d="M69 79h22l7 15H62Z" fill="#1d1e23" />
+            <path d="M58 108h44l10 65-20 4-12-44-12 44-20-4Z" fill="#30333b" />
+            <path d="M51 126h15v23H48ZM94 126h15l3 23H96Z" fill="#24262d" />
+            <path d="M48 179h27l-4 12H43q-3-8 5-12ZM85 179h27q8 4 5 12H88Z" fill="#1d1e23" />
+          </>
+        );
+      case "trench":
+        return (
+          <>
+            <path
+              d="M55 41 70 34h20l15 7 16 38-17 8-8-21 9 76H55l9-76-8 21-17-8Z"
+              fill={`url(#${gradientId})`}
+            />
+            <path d="m70 34 10 19 10-19 10 13-14 17H74L60 47Z" fill="#f7f0e6" />
+            <path d="M80 54v86M61 91h38M68 101h24" fill="none" />
+            <circle cx="72" cy="70" r="2.5" fill="#6d584b" stroke="none" />
+            <circle cx="88" cy="70" r="2.5" fill="#6d584b" stroke="none" />
+            <path d="M62 142h36l8 34-18 2-8-27-8 27-18-2Z" fill="#343238" />
+            <path d="M52 180h23l-3 12H47q-2-8 5-12ZM85 180h23q7 4 5 12H88Z" fill="#423a38" />
+          </>
+        );
+      case "western":
+        return (
+          <>
+            <path
+              d="M55 44 70 36h20l15 8 15 34-16 9-9-22v42H65V65l-9 22-16-9Z"
+              fill="#f8ead5"
+            />
+            <path d="M65 54h30l-4 50H69Z" fill={`url(#${gradientId})`} />
+            <path d="M70 36 80 53l10-17 7 13-12 13H75L63 49Z" fill="#fffaf1" />
+            <path d="M58 106h44l12 70-22 2-12-49-12 49-22-2Z" fill="#50799a" />
+            <path d="M53 128h17M90 128h17" fill="none" stroke="#d3a761" strokeWidth="2" />
+            <path d="M47 180h28l-3 12H43q-2-8 4-12ZM85 180h28q7 4 4 12H88Z" fill="#774f30" />
+          </>
+        );
+      case "dress":
+        return (
+          <>
+            <path
+              d="M67 38h26l5 26 12 27 18 86q-20 15-48 15t-48-15l18-86 12-27Z"
+              fill={`url(#${patternId})`}
+            />
+            <path d="M67 38q13 15 26 0l5 26H62Z" fill="#f9ecd8" opacity=".72" />
+            <path d="M58 78h44M49 108h62M41 145h78" fill="none" stroke="#f2dfc9" />
+            <path d="M61 65 43 87l10 14 17-25M99 65l18 22-10 14-17-25" fill="#eee0ca" opacity=".85" />
+          </>
+        );
+      case "y2k":
+        return (
+          <>
+            <path
+              d="M54 44 69 36h22l15 8 15 35-17 8-8-23v43H64V64l-8 23-17-8Z"
+              fill={`url(#${silverId})`}
+            />
+            <path d="M70 47h20l6 42H64Z" fill={`url(#${gradientId})`} />
+            <path d="M61 106h38l13 43H48Z" fill={`url(#${patternId})`} />
+            <path d="M54 156h19l-1 17H51ZM87 156h19l3 17H88Z" fill="#eee8f3" />
+            <path d="M48 174h27l-2 18H44ZM85 174h27l4 18H87Z" fill="#a4a8bc" />
+          </>
+        );
+      case "sport":
+        return (
+          <>
+            <path
+              d="M53 44 69 36h22l16 8 16 34-17 9-9-22v40H63V65l-9 22-17-9Z"
+              fill={`url(#${gradientId})`}
+            />
+            <path d="M65 54h30v14H65ZM72 36h16l7 15H65Z" fill="#f9eee6" />
+            <path d="M60 105h40l8 36-20 3-8-24-8 24-20-3Z" fill={`url(#${patternId})`} />
+            <path d="M55 151h18v18H53ZM87 151h18l2 18H89Z" fill="#fff7e9" />
+            <path d="M48 173h29l-5 17H43q-3-11 5-17ZM83 173h29q8 6 5 17H88Z" fill="#f0e9df" />
+          </>
+        );
+      case "stage":
+        return (
+          <>
+            <path
+              d="M64 37h32l5 28 13 27 13 78-29 20-18-29-18 29-29-20 13-78 13-27Z"
+              fill={`url(#${patternId})`}
+            />
+            <path d="M64 37 80 55l16-18 6 21-13 16H71L58 58Z" fill="#302144" />
+            <path d="M52 92h56M44 128h72" fill="none" stroke="#e8c56b" />
+            <path d="m101 122 25 43-26 25-13-43Z" fill={`url(#${gradientId})`} opacity=".8" />
+            <path d="M50 178h23l-2 15H47ZM87 178h23l3 15H89Z" fill="#2a202f" />
+          </>
+        );
+      default:
+        return (
+          <>
+            <path
+              d="M55 43 70 35h20l15 8 15 35-16 9-9-22v39H65V65l-9 22-16-9Z"
+              fill="#f7ead8"
+            />
+            <path d="M61 105h38l13 48H48Z" fill={`url(#${patternId})`} />
+            <path d="M54 158h20l-2 16H51ZM86 158h20l3 16H88Z" fill="#fff7eb" />
+            <path d="M49 176h26l-3 15H45ZM85 176h26l4 15H88Z" fill={outfit.color} />
+          </>
+        );
+    }
+  })();
+
+  return (
+    <svg
+      className="wardrobe-garment-art"
+      viewBox="0 0 160 220"
+      role="img"
+      aria-label={`${outfit.name}服装`}
+    >
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#fff8ef" />
+          <stop offset=".42" stopColor={outfit.color} />
+          <stop offset="1" stopColor={outfit.color} stopOpacity=".72" />
+        </linearGradient>
+        <pattern id={patternId} width="12" height="12" patternUnits="userSpaceOnUse">
+          <rect width="12" height="12" fill={outfit.color} />
+          <path d="M0 6h12M6 0v12" stroke="#fff7e9" strokeOpacity=".28" />
+          <circle cx="3" cy="3" r="1.2" fill="#fff7e9" fillOpacity=".5" />
+        </pattern>
+        <linearGradient id={silverId} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#f4f5fa" />
+          <stop offset=".45" stopColor="#9ca3b6" />
+          <stop offset=".7" stopColor="#e3e5ed" />
+          <stop offset="1" stopColor="#858da3" />
+        </linearGradient>
+        <filter id={shadowId} x="-30%" y="-30%" width="160%" height="170%">
+          <feDropShadow dx="0" dy="5" stdDeviation="4" floodColor="#50373d" floodOpacity=".18" />
+        </filter>
+      </defs>
+      <g
+        filter={`url(#${shadowId})`}
+        stroke="#5a464a"
+        strokeWidth="1.25"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      >
+        {garment}
+      </g>
+    </svg>
+  );
+}
+
 export default function Home() {
   const [activeCharacter, setActiveCharacter] = useState(1);
   const [activeOutfit, setActiveOutfit] = useState<number | null>(null);
@@ -840,9 +1076,10 @@ export default function Home() {
               key={item.name}
               style={{ "--card-color": item.color } as CSSProperties}
             >
-              <GarmentOnly
+              <WardrobeGarment
                 outfit={item}
-                className="outfit-card-look"
+                index={index}
+                gender={character.gender}
               />
               <span className="outfit-card-copy">
                 <small>{String(index + 1).padStart(2, "0")}</small>
