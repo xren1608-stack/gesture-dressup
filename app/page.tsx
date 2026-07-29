@@ -16,12 +16,24 @@ import {
 
 type CameraState = "idle" | "loading" | "ready" | "error";
 type SelectionSource = "mouse" | "gesture";
+type Gender = "female" | "male";
+type Outfit = {
+  name: string;
+  short: string;
+  tag: string;
+  col: number;
+  row: number;
+  color: string;
+  description: string;
+  filter?: string;
+};
 
 const characters = [
   {
     id: "peach",
     name: "奶油桃桃",
     caption: "甜美软萌",
+    gender: "female" as Gender,
     index: 0,
     accent: "#ef9aa5",
   },
@@ -29,6 +41,7 @@ const characters = [
     id: "blue",
     name: "蓝调酷仔",
     caption: "中性街头",
+    gender: "male" as Gender,
     index: 1,
     accent: "#4256a6",
   },
@@ -36,12 +49,13 @@ const characters = [
     id: "chestnut",
     name: "栗子同学",
     caption: "复古文艺",
+    gender: "female" as Gender,
     index: 2,
     accent: "#8b6b4f",
   },
-] as const;
+];
 
-const outfits = [
+const femaleOutfits: Outfit[] = [
   {
     name: "奶油蝴蝶结",
     short: "奶油",
@@ -132,7 +146,108 @@ const outfits = [
     color: "#6f58a8",
     description: "亮片、星星与不对称裙摆，为聚光灯而生。",
   },
-] as const;
+];
+
+const maleOutfits: Outfit[] = [
+  {
+    name: "深蓝学院",
+    short: "学院",
+    tag: "学院",
+    col: 1,
+    row: 0,
+    color: "#354365",
+    description: "深蓝西装、衬衫与领带，清爽利落的少年学院感。",
+  },
+  {
+    name: "美式棒球",
+    short: "棒球",
+    tag: "休闲",
+    col: 2,
+    row: 0,
+    color: "#5677a6",
+    description: "宽松棒球夹克和水洗牛仔裤，轻松又有少年感。",
+  },
+  {
+    name: "暗夜机能",
+    short: "机能",
+    tag: "街头",
+    col: 3,
+    row: 0,
+    color: "#37383e",
+    description: "黑色连帽衫、工装裤与腰包，是酷感十足的街头组合。",
+  },
+  {
+    name: "都市风衣",
+    short: "风衣",
+    tag: "通勤",
+    col: 1,
+    row: 1,
+    color: "#887665",
+    description: "长风衣配直筒长裤，克制、从容又有电影感。",
+  },
+  {
+    name: "沙丘校队",
+    short: "沙丘",
+    tag: "休闲",
+    col: 2,
+    row: 0,
+    color: "#a2703e",
+    description: "沙丘色校队夹克搭配阔腿牛仔，温暖又松弛。",
+    filter: "sepia(.38) saturate(.9) brightness(1.08)",
+  },
+  {
+    name: "森林风衣",
+    short: "森林",
+    tag: "通勤",
+    col: 1,
+    row: 1,
+    color: "#687660",
+    description: "低饱和森林色风衣与深色长裤，安静又耐看。",
+    filter: "sepia(.16) hue-rotate(52deg) saturate(.72) brightness(.92)",
+  },
+  {
+    name: "森林校队",
+    short: "校队",
+    tag: "休闲",
+    col: 2,
+    row: 0,
+    color: "#557762",
+    description: "森林配色的校队夹克和阔腿牛仔，松弛又耐看。",
+    filter: "hue-rotate(48deg) saturate(.82)",
+  },
+  {
+    name: "蓝调机能",
+    short: "蓝调",
+    tag: "街头",
+    col: 3,
+    row: 0,
+    color: "#3f5678",
+    description: "蓝黑机能层次搭配工装裤，适合夜色里的城市漫游。",
+    filter: "sepia(.18) hue-rotate(160deg) saturate(1.35) brightness(1.08)",
+  },
+  {
+    name: "焦糖学院",
+    short: "焦糖",
+    tag: "学院",
+    col: 1,
+    row: 0,
+    color: "#9a684a",
+    description: "焦糖色学院外套搭配格纹下装，复古但不拘谨。",
+    filter: "sepia(.35) hue-rotate(330deg) saturate(1.15) brightness(1.06)",
+  },
+  {
+    name: "夜幕风衣",
+    short: "夜幕",
+    tag: "通勤",
+    col: 1,
+    row: 1,
+    color: "#4d5367",
+    description: "冷灰蓝风衣和深色长裤，像夜幕下安静利落的主角。",
+    filter: "hue-rotate(172deg) saturate(.68) brightness(.86)",
+  },
+];
+
+const OUTFIT_COUNT = 10;
 
 const handConnections = [
   [0, 1],
@@ -179,10 +294,12 @@ function CharacterCrop({
 function OutfitCrop({
   col,
   row,
+  filter,
   className = "",
 }: {
   col: number;
   row: number;
+  filter?: string;
   className?: string;
 }) {
   return (
@@ -191,8 +308,37 @@ function OutfitCrop({
         src="./assets/outfit-collection.png"
         alt=""
         style={{
-          transform: `translate(-${col * 20}%, -${row * 50}%)`,
+          left: `calc(-${col * 105}% - 2.5%)`,
+          top: `calc(-${row * 105}% - 2.5%)`,
+          width: "525%",
+          height: "210%",
+          filter,
         }}
+      />
+    </span>
+  );
+}
+
+function PolishedLook({
+  outfit,
+  characterIndex,
+  className = "",
+}: {
+  outfit: Outfit;
+  characterIndex: number;
+  className?: string;
+}) {
+  return (
+    <span className={`polished-look ${className}`} aria-hidden="true">
+      <OutfitCrop
+        col={outfit.col}
+        row={outfit.row}
+        filter={outfit.filter}
+        className="polished-look-outfit"
+      />
+      <CharacterCrop
+        index={characterIndex}
+        className="polished-look-identity"
       />
     </span>
   );
@@ -224,11 +370,13 @@ export default function Home() {
   const gestureLabelRef = useRef("");
 
   const character = characters[activeCharacter];
-  const outfit = activeOutfit === null ? null : outfits[activeOutfit];
+  const wardrobe =
+    character.gender === "male" ? maleOutfits : femaleOutfits;
+  const outfit = activeOutfit === null ? null : wardrobe[activeOutfit];
 
   const triggerOutfit = useCallback(
     (index: number, source: SelectionSource) => {
-      if (index < 0 || index >= outfits.length) return;
+      if (index < 0 || index >= OUTFIT_COUNT) return;
       if (changeTimerRef.current) clearTimeout(changeTimerRef.current);
       setActiveOutfit(index);
       setLastSource(source);
@@ -578,25 +726,17 @@ export default function Home() {
           </div>
 
           <div className="doll-wrap">
-            <CharacterCrop
-              index={character.index}
-              className="doll-base-character"
-            />
-            {outfit && (
-              <div
-                className={`garment-look garment-look-${activeOutfit + 1}`}
-                aria-hidden="true"
-              >
-                <span className="garment-top" />
-                <span className="garment-sleeve garment-sleeve-left" />
-                <span className="garment-sleeve garment-sleeve-right" />
-                <span className="garment-bottom" />
-                <span className="garment-leg garment-leg-left" />
-                <span className="garment-leg garment-leg-right" />
-                <span className="garment-shoe garment-shoe-left" />
-                <span className="garment-shoe garment-shoe-right" />
-                <span className="garment-accessory" />
-              </div>
+            {outfit ? (
+              <PolishedLook
+                outfit={outfit}
+                characterIndex={character.index}
+                className="doll-polished-look"
+              />
+            ) : (
+              <CharacterCrop
+                index={character.index}
+                className="doll-base-character"
+              />
             )}
           </div>
 
@@ -670,13 +810,20 @@ export default function Home() {
             <span>03</span>
             <div>
               <p>全部衣橱</p>
-              <small>10 CURATED LOOKS</small>
+              <small>
+                {character.gender === "male"
+                  ? "10 BOYS' CURATED LOOKS"
+                  : "10 GIRLS' CURATED LOOKS"}
+              </small>
             </div>
           </div>
-          <p>点击服装，或用手势光标悬停后捏合</p>
+          <p>
+            当前为{character.gender === "male" ? "男生" : "女生"}衣橱 ·
+            点击服装，或用手势光标悬停后捏合
+          </p>
         </div>
         <div className="outfit-rail">
-          {outfits.map((item, index) => (
+          {wardrobe.map((item, index) => (
             <button
               type="button"
               className={`outfit-card ${
@@ -688,7 +835,11 @@ export default function Home() {
               key={item.name}
               style={{ "--card-color": item.color } as CSSProperties}
             >
-              <OutfitCrop col={item.col} row={item.row} />
+              <PolishedLook
+                outfit={item}
+                characterIndex={character.index}
+                className="outfit-card-look"
+              />
               <span className="outfit-card-copy">
                 <small>{String(index + 1).padStart(2, "0")}</small>
                 <strong>{item.name}</strong>
